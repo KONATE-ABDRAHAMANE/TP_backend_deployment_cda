@@ -24,7 +24,7 @@ pipeline {
                     -Dsonar.projectKey=konate_tp_back \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=https://669b-212-114-26-208.ngrok-free.app \
-                    -Dsonar.token=sqp_43d97a64df50e9704f078197b1dd314e0e39771c
+                    -Dsonar.token=$SONAR_TOKEN
                 '''
             }
 
