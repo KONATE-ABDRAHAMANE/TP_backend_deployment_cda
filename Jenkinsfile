@@ -10,7 +10,7 @@ pipeline {
         stage('Déploiement via FTP') {
             steps {
                 sh '''
-                    lftp -d -u ${siteUser},${sitePass} ftp://ftp-lafia-market-back.alwaysdata.net -e "
+                    lftp -d -u $siteUser,$sitePass ftp://ftp-lafia-market-back.alwaysdata.net -e "
                         mirror -R . www/;
                         bye
                     "
@@ -21,7 +21,7 @@ pipeline {
         stage('Install Composer & .env') {
             steps {
                 sh """
-                    sshpass -p ${sitePass} ssh -o StrictHostKeyChecking=no lafia-market-back@ssh-lafia-market-back.alwaysdata.net '
+                    sshpass -p "$sitePass" ssh -o StrictHostKeyChecking=no lafia-market-back@ssh-lafia-market-back.alwaysdata.net '
                         cd ~/www &&
                         composer install --no-dev &&
                         echo "DB_HOST=mysql-lafia-market-back.alwaysdata.net" > .env &&
@@ -36,7 +36,7 @@ pipeline {
         stage('Migration bdd') {
             steps {
                 sh """
-                    sshpass -p ${sitePass} ssh -o StrictHostKeyChecking=no lafia-market-back@ssh-lafia-market-back.alwaysdata.net '
+                    sshpass -p "$sitePass" ssh -o StrictHostKeyChecking=no lafia-market-back@ssh-lafia-market-back.alwaysdata.net '
                         cd ~/www && php migrate.php
                     '
                 """
