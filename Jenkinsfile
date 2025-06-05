@@ -1,6 +1,5 @@
 pipeline {
     agent { label 'agent-php' }
-
     stages {
         stage('Git Clone') {
             steps {
@@ -19,11 +18,12 @@ pipeline {
             }
         }
 
-         stage('Install Composer & .env') {
+        stage('Install Composer & .env') {
             steps {
                 sh """
                     sshpass -p "$sitePass" ssh -o StrictHostKeyChecking=no lafia-market-back@ssh-lafia-market-back.alwaysdata.net '
-                        cd ~/www && composer install --no-dev &&
+                        cd ~/www &&
+                        composer install --no-dev &&
                         echo "DB_HOST=mysql-lafia-market-back.alwaysdata.net" > .env &&
                         echo "DB_NAME=${dbName}" >> .env &&
                         echo "DB_USER=416325" >> .env &&
@@ -32,6 +32,7 @@ pipeline {
                 """
             }
         }
+
         stage('Migration bdd') {
             steps {
                 sh """
@@ -41,6 +42,5 @@ pipeline {
                 """
             }
         }
-        
     }
 }
