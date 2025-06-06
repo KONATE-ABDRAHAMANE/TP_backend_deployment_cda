@@ -19,15 +19,14 @@ pipeline {
         }
         stage('controle qualité') {
     steps {
-        withCredentials([string(credentialsId: 'SONAR_TOKEN_ID', variable: 'SONAR_TOKEN')]) {
-            sh '''
+            sh """
                 sonar-scanner \
                 -Dsonar.projectKey=konate_tp_back \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=https://669b-212-114-26-208.ngrok-free.app \
-                -Dsonar.token=$SONAR_TOKEN
-            '''
-        }
+                -Dsonar.token=${SONAR_TOKEN}
+            """
+        
     }
 }
 
